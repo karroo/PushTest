@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="karroo.app.test"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="8" />
+
+     <application android:icon="@drawable/ic_launcher" android:label="@string/app_name">
+        <activity android:name=".PushTestActivity"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- Only C2DM servers can send messages for the app. 
+            If permission is not set - any other app can generate it -->
+        <receiver android:name=".C2dmReceiver"
+                  android:permission="com.google.android.c2dm.permission.SEND" >
+             <!-- Receive the actual message -->
+            <intent-filter >
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="test.push"/>
+            </intent-filter>
+            <!-- Receive the registration id -->
+            <intent-filter >
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
+                <category android:name="test.push"/>
+            </intent-filter>
+        </receiver>
+    </application>
+ 
+    <!-- Only this application can receive the messages and 
+        registration result -->
+    <permission android:name="karroo.app.test.permission.C2D_MESSAGE"
+                android:protectionLevel="signature" />
+    <uses-permission android:name="karroo.app.test.permission.C2D_MESSAGE"/>
+     
+    <!-- This app has permission to register and receive message -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+     
+    <!-- Send the registration id to the server -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+
+
+</manifest>
