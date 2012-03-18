@@ -28,7 +28,6 @@
             android:layout_width="100dip"
             android:layout_height="wrap_content"
             android:text="SNS" />
-
     </LinearLayout>
 
     <FrameLayout
@@ -39,55 +38,200 @@
             android:id="@+id/push_test"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="horizontal" >
-
-            <TextView 
-                android:id="@+id/push_text"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"/>
+            android:orientation="vertical" >
+			<LinearLayout
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="horizontal" >
             
-            <!-- 
-            <EditText
-                android:id="@+id/msg_text"
-                android:layout_width="240dip"
-                android:layout_height="wrap_content" />
+	            <EditText
+	                android:id="@+id/mail_id"
+	                android:layout_width="180dip"
+	                android:layout_height="wrap_content"
+	                android:hint="mail id"
+	                android:singleLine="true"
+	                android:scrollHorizontally="true"
+	                />
+	            <EditText
+	                android:id="@+id/mail_pass"
+	                android:layout_width="70dip"
+	                android:layout_height="wrap_content"
+	                android:hint="passwd"
+	                android:password="true"
+	                android:singleLine="true"
+	                android:scrollHorizontally="true"
+	                />
+	            <Button 
+		                android:id="@+id/authPuth"
+		                android:layout_width="fill_parent"
+		                android:layout_height="wrap_content"
+		                android:text="Auth"
+		                />
+            </LinearLayout>
+            <LinearLayout
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="horizontal" >
+	            <EditText
+	                android:id="@+id/pushMsg"
+	                android:layout_width="250dip"
+	                android:layout_height="wrap_content"
+	                android:hint="message"
+	                />
+	           	<Button 
+		                android:id="@+id/sendPush"
+		                android:layout_width="fill_parent"
+		                android:layout_height="wrap_content"
+		                android:text="Send"
+		                />
+           </LinearLayout>
+           <TextView
+                android:id="@+id/receivePush"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
 
-            <Button
-                android:id="@+id/msg_send"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="보내기 " />
-            -->
+            
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/websocket_test"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="horizontal" >
+            android:orientation="vertical"
+            android:visibility="invisible" >
 
-             <TextView 
+            <EditText
+                android:id="@+id/socket_url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="url을 입력하세요"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="ws://10.0.2.2:9999/test/caption?programId=111" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/socket_connect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="연결" />
+
+                <Button
+                    android:id="@+id/socket_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="중지" />
+            </LinearLayout>
+
+            <TextView
                 android:id="@+id/websocket_text"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"/>
+                android:layout_height="fill_parent" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/sns_test"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="horizontal" >
+            android:orientation="vertical"
+            android:visibility="invisible" >
 
-            <EditText
-                android:id="@+id/sns_text"
-                android:layout_width="240dip"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/sns_send"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="보내기 " />
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="150dip"
+                        android:layout_height="wrap_content"
+                        android:text="트위터연결" />
+                    <Button
+                        android:id="@+id/authTwitter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="인증"/>
+                    <CheckBox 
+                        android:id="@+id/twitterOn"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="사용"                   
+                        />
+                    
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="150dip"
+                        android:layout_height="wrap_content"
+                        android:text="페이스북" />
+                    <Button
+                        android:id="@+id/authFacebook"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="인증"/>
+                    <CheckBox 
+                        android:id="@+id/facebookOn"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="사용"                   
+                        />
+                    
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="150dip"
+                        android:layout_height="wrap_content"
+                        android:text="미투데이" />
+                    <Button
+                        android:id="@+id/authMe2to"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="인증"/>
+                    <CheckBox 
+                        android:id="@+id/me2dayOn"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="사용"                   
+                        />
+                    
+                </LinearLayout>
+>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/sns_text"
+                    android:layout_width="240dip"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/sns_send"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="보내기 " />
+            </LinearLayout>
         </LinearLayout>
     </FrameLayout>
 

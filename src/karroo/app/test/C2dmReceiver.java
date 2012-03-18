@@ -12,7 +12,9 @@ import android.widget.Toast;
 public class C2dmReceiver  extends BroadcastReceiver  {
 	static String registration_id = null;
     static String c2dm_msg = "";
-     
+    public C2dmReceiver(C2DMProcessor processor){
+    	
+    }
     @Override
     public void onReceive(Context context, Intent intent) {
         // 리시버로 받은 데이터가 Registration ID이면
@@ -20,9 +22,7 @@ public class C2dmReceiver  extends BroadcastReceiver  {
                 "com.google.android.c2dm.intent.REGISTRATION")) {
  
             handleRegistration(context, intent);
-        }
-        // 리시버가 받은 데이터가 메세지이면
-        else if (intent.getAction().equals(
+        }else if (intent.getAction().equals(
                 "com.google.android.c2dm.intent.RECEIVE")) {
  
             // 추출
@@ -44,19 +44,11 @@ public class C2dmReceiver  extends BroadcastReceiver  {
         Log.v("C2DM", "Get the Registration ID From C2DM");
         Log.v("C2DM", "Registration ID : " + registration_id);
  
-        // 받은 메세지가 error일 경우
         if (intent.getStringExtra("error") != null) {
-            Log.v("C2DM", "C2DM REGISTRATION : Registration failed,"
-                    + "should try again later");
-        }
-        // 받은 메세지가 unregistered일 경우
-        else if (intent.getStringExtra("unregistered") != null) {
-            Log.v("C2DM", "C2DM REGISTRATION : unregistration done, "
-                    + "new messages from the authorized "
-                    + "sender will be rejected");
-        }
-        // 받은 메세지가 Registration ID일 경우
-        else if (registration_id != null) {
+            Log.v("C2DM", "error");
+        }else if (intent.getStringExtra("unregistered") != null) {
+            Log.v("C2DM", "unregistered.");
+        }else if (registration_id != null) {
             Log.v("C2DM", "Registration ID complete!");
  
             // Registration ID 저장
