@@ -12,18 +12,28 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
-public class WebSocketProcessor implements HandlerDelegate{
+public class WebSocketProcessor implements IHandlerDelegate{
 	final int  HANDER_ID=1;
 	WebSocketClient socket;
 	TextView urlText ;
+	TextView programIdText;
 	TextView websocketText;
+	CheckBox onCaption;
+	CheckBox onHotNews;
 	public WebSocketProcessor(Activity activity){
 		
 		
 		urlText = ((TextView)activity.findViewById(R.id.socket_url));
+		programIdText = ((TextView)activity.findViewById(R.id.programId));
 		websocketText = ((TextView)activity.findViewById(R.id.websocket_text));
+		
+		((CheckBox)activity.findViewById(R.id.onCaption)).setOnCheckedChangeListener(checkListener);
+		((CheckBox)activity.findViewById(R.id.onSpotnews)).setOnCheckedChangeListener(checkListener);
 		
         activity.findViewById(R.id.socket_connect).setOnClickListener(socketListener);
         activity.findViewById(R.id.socket_close).setOnClickListener(socketListener);
@@ -49,13 +59,36 @@ public class WebSocketProcessor implements HandlerDelegate{
 		}
 	}
     
+	OnCheckedChangeListener checkListener = new OnCheckedChangeListener(){
+
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
+			// TODO Auto-generated method stub
+			int id = buttonView.getId();
+			switch(id){
+			case R.id.onCaption:
+				if(isChecked) send("action=onCaption&programId="+programIdText.getText().toString());
+				else send("action=offCaption");
+				break;
+			case R.id.onSpotnews:
+				if(isChecked) send("action=onSpotnews");
+				else send("action=offSpotnews");
+				break;
+			}
+		}
+		
+	};
 	
 	OnClickListener socketListener = new OnClickListener(){
     	public void onClick(View v){
     		int id = v.getId();
     		switch(id){
     		case R.id.socket_connect:
-    			String url = urlText.getText().toString();
+    			String server = urlText.getText().toString();
+    			String programId = programIdText.getText().toString();
+    			
+    			String url = "ws://"+server+"/WITHSocket/connect";
     			connect(url);
     			break;
     		case R.id.socket_close:
@@ -76,6 +109,7 @@ public class WebSocketProcessor implements HandlerDelegate{
 				}	
 			}catch(Exception e){
 			}
+			
 			
 			socket = new WebSocketClient(new URI(url),new Draft_10()){
 				@Override
@@ -120,6 +154,15 @@ public class WebSocketProcessor implements HandlerDelegate{
 		socket.close();
 		sendHandler("close");
 		socket = null;
+	}
+	
+	public void send(String message){
+		Log.i("WEBSOCKET",message);
+		try{
+			socket.send(message);
+		}catch(Exception e){
+			Log.e("WEBSOCKET",e.getMessage(),e);
+		}
 	}
 
 	

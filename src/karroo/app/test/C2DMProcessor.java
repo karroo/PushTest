@@ -25,30 +25,28 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class C2DMProcessor  implements HandlerDelegate{
+public class C2DMProcessor  implements IHandlerDelegate,IReceiverDelegate{
 	final int HANDLER_ID = 2; 
 	String registration_id = null;
     String authToken = null;
 	Activity activity;
-	TextView msg_text;
+	TextView receicePush;
 	Button authPuth ;
-	EditText mailText;
-	EditText passText;
-	
-	EditText pushText;
+	TextView registId;
 	
 	public C2DMProcessor(Activity activity){
 		this.activity = activity;
 		
 
-      msg_text = (TextView) activity.findViewById(R.id.receivePush);
-      mailText = (EditText)activity.findViewById(R.id.mail_id);
-      passText = (EditText)activity.findViewById(R.id.mail_pass);
-      pushText = (EditText)activity.findViewById(R.id.pushMsg);
-      activity.findViewById(R.id.authPuth).setOnClickListener(clickListener);
-      activity.findViewById(R.id.sendPush).setOnClickListener(clickListener);
+      receicePush = (TextView) activity.findViewById(R.id.receivePush);
+      registId = (TextView)activity.findViewById(R.id.regist_id);
+//      passText = (EditText)activity.findViewById(R.id.mail_pass);
+//      pushText = (EditText)activity.findViewById(R.id.pushMsg);
       
-      registReceiver();
+      activity.findViewById(R.id.authPuth).setOnClickListener(clickListener);
+//      activity.findViewById(R.id.sendPush).setOnClickListener(clickListener);
+      
+      
 	}
 	
 	OnClickListener clickListener = new OnClickListener() {
@@ -59,11 +57,11 @@ public class C2DMProcessor  implements HandlerDelegate{
             	int id = v.getId();
             	switch(id){
             	case R.id.authPuth:
-            		connect();
+            		requestRegistrationId("mozinski@gmail.com");
             		break;
-            	case R.id.sendPush:
-            		sender(pushText.getText().toString());
-            		break;
+//            	case R.id.sendPush:
+//            		sender(pushText.getText().toString());
+//            		break;
             	}
 //                sender(msg_text.getText().toString());
 //                Log.v("C2DM", "Send Message : "+ msg_text.getText().toString());
@@ -87,50 +85,37 @@ public class C2DMProcessor  implements HandlerDelegate{
     public void handleMessage(Message msg){
 		if(msg.arg1 ==HANDLER_ID){
 		
-//			String str = websocketText.getText().toString();
-//			websocketText.setText(str+"\n"+msg.obj.toString());
-//			break;
+			String str = receicePush.getText().toString();
+			receicePush.setText(str+"\n"+msg.obj.toString());
+			if(registration_id != null) registId.setText(registration_id);
 		}
 	}
     
     
     
-    void registReceiver(){
+    public void registReceiver(){
     	 IntentFilter iFilter = new IntentFilter();
-         iFilter.addAction("com.google.android.c2dm.intent.RECEIVE" ); 
-         iFilter.addAction("com.google.android.c2dm.intent.REGISTRATION");
-         activity.registerReceiver( receiver, iFilter );
+    	 iFilter.addAction("karroo.app.test.C2DM" ); 
+    	 activity.registerReceiver(receiver, iFilter);
+    }
+    public void unregistReceiver(){
+    	activity.unregisterReceiver(receiver);
+    	
     }
     BroadcastReceiver receiver = new BroadcastReceiver(){
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			// TODO Auto-generated method stub
-			if (intent.getAction().equals(
-	                "com.google.android.c2dm.intent.REGISTRATION")) {
-	            handleRegistration(context, intent);
-	        }else if (intent.getAction().equals(
-	                "com.google.android.c2dm.intent.RECEIVE")) {
-	        	String msg = intent.getStringExtra("msg");
-	        	receive(msg);
-	        }
+			Log.i("C2DM",intent.getStringExtra("message"));
+
+			sendHandler(intent.getStringExtra("message"));
 		}
     	
     };
     
+   
     
-	
-	public void connect(){
-		String mail = mailText.getText().toString();
-		String pass = passText.getText().toString();
-        try {
-            requestRegistrationId(mail);
-            authToken = getAuthToken(mail,pass);
-        } catch (Exception e) { 
-            e.printStackTrace();
-        }
-	}
-	
-	
+    
+
 	
  
     /**
@@ -144,6 +129,7 @@ public class C2DMProcessor  implements HandlerDelegate{
         registration_id = shrdPref.getString("registration_id", null);
         shrdPref = null;
  
+        
         if (registration_id == null) {
             Intent registrationIntent = new Intent("com.google.android.c2dm.intent.REGISTER");
             // Application ID(Package Name)
@@ -151,9 +137,10 @@ public class C2DMProcessor  implements HandlerDelegate{
             // Developer ID
             registrationIntent.putExtra("sender", mail);
             // Start request.
-            ComponentName comp = activity.startService(registrationIntent);
-            Log.v("C2DM","ComponentName : "+comp.getClassName());
+            
+            activity.startService(registrationIntent);
         } 
+        Log.v("C2DM","registration_id : "+registration_id);
     }
     public void handleRegistration(Context context, Intent intent) {
    	 
@@ -182,6 +169,7 @@ public class C2DMProcessor  implements HandlerDelegate{
      * C2DM을 이용하기 위해서는 보안상 authToken(인증키)이 필요하다. 
      * authToken도 역시 한 번만 받아놓고 저장한다음 쓰면 된다.
      */
+    /*
     public String getAuthToken(String mail,String pass) throws Exception {
  
         SharedPreferences shrdPref = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -192,7 +180,7 @@ public class C2DMProcessor  implements HandlerDelegate{
         if (authToken == null) {
             StringBuffer postDataBuilder = new StringBuffer();
  
-            postDataBuilder.append("accountType=HOSTED_OR_GOOGLE");
+            postDataBuilder.append("accountType=GOOGLE");
             postDataBuilder.append("&Email="+mail);
             postDataBuilder.append("&Passwd="+pass); 
             postDataBuilder.append("&service=ac2dm");
@@ -240,9 +228,10 @@ public class C2DMProcessor  implements HandlerDelegate{
     }
     
     
+    
     public void receive(String msg){
     	sendHandler(msg);
-    }
+    }*/
     
     /** C2DM으로 메세지를 보내는 메소드 */
     public void sender(String msg)

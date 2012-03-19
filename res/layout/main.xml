@@ -44,30 +44,22 @@
 	            android:layout_height="wrap_content"
 	            android:orientation="horizontal" >
             
-	            <EditText
-	                android:id="@+id/mail_id"
-	                android:layout_width="180dip"
-	                android:layout_height="wrap_content"
-	                android:hint="mail id"
-	                android:singleLine="true"
-	                android:scrollHorizontally="true"
-	                />
-	            <EditText
-	                android:id="@+id/mail_pass"
-	                android:layout_width="70dip"
-	                android:layout_height="wrap_content"
-	                android:hint="passwd"
-	                android:password="true"
-	                android:singleLine="true"
-	                android:scrollHorizontally="true"
-	                />
 	            <Button 
 		                android:id="@+id/authPuth"
-		                android:layout_width="fill_parent"
+		                android:layout_width="80dip"
 		                android:layout_height="wrap_content"
 		                android:text="Auth"
 		                />
+	            <TextView
+	                android:id="@+id/regist_id"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:singleLine="true"
+	                android:scrollHorizontally="true"
+	                />
+	            
             </LinearLayout>
+            <!-- 
             <LinearLayout
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
@@ -85,6 +77,7 @@
 		                android:text="Send"
 		                />
            </LinearLayout>
+           -->
            <TextView
                 android:id="@+id/receivePush"
                 android:layout_width="fill_parent"
@@ -99,15 +92,40 @@
             android:layout_height="fill_parent"
             android:orientation="vertical"
             android:visibility="invisible" >
-
-            <EditText
-                android:id="@+id/socket_url"
-                android:layout_width="wrap_content"
+			<LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="url을 입력하세요"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:text="ws://10.0.2.2:9999/test/caption?programId=111" />
+                android:orientation="horizontal" >
+	           	<TextView 
+	           	    android:layout_width="80dip"
+                	android:layout_height="wrap_content"
+                	android:text="Server URL"/>
+            	<EditText
+	                android:id="@+id/socket_url"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:hint="Servet URL"
+	                android:scrollHorizontally="true"
+	                android:singleLine="true"
+	                android:text="10.0.2.2:8080" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+	           	<TextView 
+	           	    android:layout_width="80dip"
+                	android:layout_height="wrap_content"
+                	android:text="Program Id"/>
+            	<EditText
+	                android:id="@+id/programId"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:hint="programId"
+	                android:scrollHorizontally="true"
+	                android:singleLine="true"
+	                android:text="1111" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -125,6 +143,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="중지" />
+                <CheckBox
+                    android:id="@+id/onCaption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+                <TextView 
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="캡션시작"/>
+                <CheckBox
+                    android:id="@+id/onSpotnews"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+                <TextView 
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="속보시작"/>
             </LinearLayout>
 
             <TextView

@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -46,6 +49,7 @@ public class PushTestActivity extends Activity {
         c2dmProcessor = new C2DMProcessor(this);
         c2dmProcessor.setHandler(handler);
         addHandlerDelegate(c2dmProcessor);
+        addReceiverDelegate(c2dmProcessor);
         
          
         
@@ -94,14 +98,14 @@ public class PushTestActivity extends Activity {
     
     
     /* handler 처리*/
-    List<HandlerDelegate> handlerDelegateList = new ArrayList<HandlerDelegate>();
-    void addHandlerDelegate(HandlerDelegate delegate){
+    List<IHandlerDelegate> handlerDelegateList = new ArrayList<IHandlerDelegate>();
+    void addHandlerDelegate(IHandlerDelegate delegate){
     	handlerDelegateList.add(delegate);
     }
     Handler handler = new Handler(){
     	public void handleMessage(Message msg){
     		super.handleMessage(msg);
-    		for(HandlerDelegate delegate:handlerDelegateList){
+    		for(IHandlerDelegate delegate:handlerDelegateList){
     	    	  delegate.handleMessage(msg);
     	      }
     	}
@@ -109,6 +113,27 @@ public class PushTestActivity extends Activity {
     
     
     
+    /* receiver 처리*/
+    List<IReceiverDelegate> receiverDelegateList = new ArrayList<IReceiverDelegate>();
+    void addReceiverDelegate(IReceiverDelegate delegate){
+    	receiverDelegateList.add(delegate);
+    }
+    
+    @Override
+    public void onResume(){
+    	super.onResume();
+    	for(IReceiverDelegate delegate : receiverDelegateList){
+    		delegate.registReceiver();
+    	}
+    }
+    
+    @Override
+    public void onPause(){
+    	super.onPause();
+    	for(IReceiverDelegate delegate : receiverDelegateList){
+    		delegate.unregistReceiver();
+    	}
+    }
    
     
 
