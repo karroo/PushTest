@@ -14,8 +14,8 @@ import android.widget.EditText;
 
 public class TwitterProcessor implements ActivityResultDelegate,ISNSProcessor{
 	public static final String LOG_TAG = "TwitterCon";
-	public static final String TWITTER_CONSUMER_KEY = "cxQpGCW4YYFk3ZYkCAHVbQ";
-	public static final String TWITTER_CONSUMER_SECRET = "CcgiMJoLdD34VQpKLHgtptUU4kZLlLfpLwqGbQfhu1k";
+	public static final String TWITTER_CONSUMER_KEY = "";
+	public static final String TWITTER_CONSUMER_SECRET = "";
 	public static final String TWITTER_CALLBACK_URL = "http://karroo.iptime.org";
 	public static final String MOVE_TWITTER_LOGIN   = "com.android.twittercon.TWITTER_LOGIN";  // 인텐트 호출시 사용할 것입니다. 
 	public static final int TWITTER_LOGIN_CODE = 10;
